@@ -190,6 +190,27 @@ Most production AI assistants use some form of RAG architecture.
 
 RAG transforms static language models into dynamic knowledge systems. By combining retrieval mechanisms with generative reasoning, it enables scalable, factual, and enterprise-ready AI applications. It represents a shift from purely parametric intelligence to hybrid memory architectures.
 
+---
+
+## System Design Perspective
+
+From a backend architecture standpoint, a RAG system consists of:
+
+- Ingestion pipeline (document loading + chunking)
+- Embedding model
+- Vector database
+- Retriever logic
+- Prompt template for augmentation
+- LLM generation layer
+- API interface (Flask/FastAPI)
+
+This separates:
+- Data layer
+- Retrieval layer
+- Orchestration layer
+- Generation layer
+
+RAG is not just a model — it is a distributed system combining multiple AI and infrastructure components.
 
 
 ---
