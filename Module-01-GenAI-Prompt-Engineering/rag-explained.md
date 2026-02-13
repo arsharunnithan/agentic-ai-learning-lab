@@ -189,3 +189,22 @@ Most production AI assistants use some form of RAG architecture.
 ## Conclusion
 
 RAG transforms static language models into dynamic knowledge systems. By combining retrieval mechanisms with generative reasoning, it enables scalable, factual, and enterprise-ready AI applications. It represents a shift from purely parametric intelligence to hybrid memory architectures.
+
+
+
+---
+
+## Future Implementation Plan
+
+This conceptual understanding of RAG will later be implemented as a mini-project:
+
+Planned Features:
+- Document ingestion and embedding
+- Vector database integration
+- Retriever implementation
+- Prompt augmentation pipeline
+- LLM-based response generation
+
+Goal:
+Build a production-style RAG system using LangChain and Flask.
+
