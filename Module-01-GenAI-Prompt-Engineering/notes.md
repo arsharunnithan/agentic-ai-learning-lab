@@ -121,6 +121,152 @@ NLP is not one single algorithm. It uses multiple tools, including:
 
 NLP is essentially a translation system between human language and machine-readable structure. It processes raw text using multiple linguistic techniques to extract meaning. In Generative AI systems, NLP enables models to understand context and generate coherent responses.
 
+# 3. Comprehensive Guide to Generative AI
+
+## Core GenAI Concepts
+
+### LLM (Large Language Model)
+
+A large-scale AI model trained on vast amounts of text data to understand and generate human-like language.
+
+Examples:
+- GPT models  
+- Claude  
+- LLaMA  
+
+---
+
+### Prompting
+
+Designing input instructions to guide an LLM’s output.
+
+Example:
+- "Write a summary in 3 sentences."
+- "Answer as a cybersecurity expert."
+
+---
+
+### Prompt Templates
+
+Reusable structured prompts with placeholders for dynamic input.
+
+Example:
+> "Explain {concept} like I'm 5 years old."
+
+---
+
+### RAG (Retrieval-Augmented Generation)
+
+A technique that combines external knowledge retrieval with LLM generation to improve factual accuracy.
+
+Basic Flow:
+1. Retrieve relevant documents  
+2. Add retrieved context to prompt  
+3. Generate response using LLM  
+
+---
+
+### Retriever
+
+A system component that fetches relevant information from a database.
+
+Example:
+- Vector similarity search using FAISS or Elasticsearch  
+
+---
+
+### Agent
+
+An autonomous AI system that can plan, reason, and use tools to complete tasks.
+
+Examples:
+- AutoGPT  
+- LangChain Agents  
+
+---
+
+### Multi-Agent System
+
+A framework where multiple AI agents collaborate to solve complex problems.
+
+Example:
+- Research agent + Writer agent + Critic agent  
+
+---
+
+### Chain-of-Thought (CoT)
+
+A prompting technique that encourages the model to break down problems into intermediate reasoning steps.
+
+Example:
+> "Let's think step by step."
+
+---
+
+### Hallucination Mitigation
+
+Techniques used to reduce incorrect or fabricated responses from LLMs.
+
+Methods:
+- RAG  
+- Fine-tuning  
+- Prompt constraints  
+
+---
+
+### Vector Database
+
+A database optimized for storing and searching vector embeddings.
+
+Examples:
+- Pinecone  
+- Chroma  
+- Weaviate  
+
+---
+
+### Orchestration
+
+Managing workflows between multiple AI components (LLMs, retrievers, tools, agents).
+
+Examples:
+- LangChain  
+- LlamaIndex  
+
+---
+
+### Fine-Tuning
+
+Adapting a pre-trained model to a specific domain using targeted data.
+
+Examples:
+- LoRA  
+- QLoRA  
+
+---
+
+## Key Architectures
+
+### RAG Pipeline
+
+1. Retrieval – Query vector database for relevant context  
+2. Augmentation – Combine retrieved context with user prompt  
+3. Generation – LLM generates final answer  
+
+---
+
+### Multi-Agent System Architecture
+
+Components:
+- Specialized agents (researcher, writer, critic)
+- Orchestration layer
+- External tools (web search, APIs, code execution)
+
+---
+
+## Conclusion
+
+Modern Generative AI systems are not just single LLM calls. They combine retrieval systems, prompt engineering, agents, orchestration frameworks, and structured workflows to build reliable, scalable AI applications.
 
 ✍️ 3. Prompt Engineering
 What is Prompt Engineering?
