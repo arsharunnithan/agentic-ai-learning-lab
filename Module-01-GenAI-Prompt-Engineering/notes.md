@@ -56,24 +56,71 @@ This next-token prediction ability is what makes them generative.
 
 Foundation models are powerful because they are trained on massive datasets to learn general patterns rather than task-specific rules. Their core capability is next-token prediction, which enables content generation. By using prompting or small amounts of labeled data, they can be adapted to many tasks without training from scratch. However, they come with high computational cost and potential bias risks.
 
-🗣 2. Natural Language Processing (NLP)
-What is NLP?
+# 2. Natural Language Processing (NLP)
 
-(2–3 lines)
+## What is NLP?
 
-Why NLP is Important in Generative AI?
+Natural Language Processing (NLP) is a field of AI that enables computers to understand, interpret, and generate human language.
 
-(Short explanation)
+It works by translating **unstructured text** (how humans naturally speak or write) into **structured data** that computers can process.
 
-Real World Applications
+For example:
 
-Chatbots
+Unstructured:
+> "Add eggs and milk to my shopping list."
 
-Text summarization
+Structured:
+- Shopping List  
+  - Item: Eggs  
+  - Item: Milk  
 
-Content generation
+NLP acts as the bridge between unstructured and structured data.
 
-(Add one more)
+---
+
+## Key Components of NLP
+
+### 1. Natural Language Understanding (NLU)
+Converts unstructured human language into structured data.
+
+Example:
+Human sentence → Extract intent and entities.
+
+---
+
+### 2. Natural Language Generation (NLG)
+Converts structured data back into natural human language.
+
+Example:
+Structured data → Generate readable sentence.
+
+---
+
+## Common NLP Use Cases
+
+- Machine translation  
+- Virtual assistants and chatbots  
+- Sentiment analysis  
+- Spam detection  
+
+---
+
+## NLP Processing Steps (Bag of Tools Approach)
+
+NLP is not one single algorithm. It uses multiple tools, including:
+
+- **Tokenization** – Breaking text into smaller units (tokens).
+- **Stemming** – Reducing words to their root form (e.g., running → run).
+- **Lemmatization** – Reducing words to their dictionary base form (e.g., better → good).
+- **Part-of-Speech Tagging** – Identifying grammatical role (noun, verb, etc.).
+- **Named Entity Recognition (NER)** – Identifying entities like people, places, organizations.
+
+---
+
+## Conclusion
+
+NLP is essentially a translation system between human language and machine-readable structure. It processes raw text using multiple linguistic techniques to extract meaning. In Generative AI systems, NLP enables models to understand context and generate coherent responses.
+
 
 ✍️ 3. Prompt Engineering
 What is Prompt Engineering?
