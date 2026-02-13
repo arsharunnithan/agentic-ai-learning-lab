@@ -24,3 +24,22 @@ Topics:
 ---
 
 This repository will evolve from theory documentation to real AI project implementations.
+
+
+---
+
+## 📈 Learning Progress
+
+- [x] Module 1 – Foundations of Generative AI and Prompt Engineering
+- [ ] Module 2 – (To be completed)
+- [ ] Module 3 – (To be completed)
+- [ ] Module 4 – (To be completed)
+
+---
+
+## 🛠 Upcoming Implementations
+
+- Prompt experimentation project
+- LangChain chaining demo
+- Flask-based AI web application
+- Model comparison mini-dashboard
