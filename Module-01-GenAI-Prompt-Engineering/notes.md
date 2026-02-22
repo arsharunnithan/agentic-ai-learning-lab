@@ -268,152 +268,85 @@ Components:
 
 Modern Generative AI systems are not just single LLM calls. They combine retrieval systems, prompt engineering, agents, orchestration frameworks, and structured workflows to build reliable, scalable AI applications.
 
-✍️ 3. Prompt Engineering
-What is Prompt Engineering?
+# 4. In-Context Learning & Prompt Engineering
 
-(Definition in your words)
+## What is In-Context Learning?
 
-Why Prompt Engineering Matters
+In-context learning is a method of prompt engineering where task demonstrations (examples) are provided inside the prompt at inference time.
 
-Helps control AI responses
+The model learns the task pattern from examples without updating its weights.
 
-Improves output quality
+Key point:
+No fine-tuning required.
 
-Makes results predictable
+The task is learned dynamically from examples included in the prompt.
 
-(Add one more if you want)
+---
 
-Good vs Bad Prompt Example
-❌ Weak Prompt
-Explain Java
+## Why In-Context Learning is Powerful
 
-✅ Strong Prompt
-Explain Java for beginners using simple examples and bullet points
+- No retraining required
+- Faster adaptation to new tasks
+- Efficient for small or changing tasks
+- Reduces resource cost compared to fine-tuning
 
-My Learning
+---
 
-(What difference did you observe?)
+## Limitations of In-Context Learning
 
-🧩 4. In-Context Learning
-What is In-Context Learning?
+- Limited by prompt length (context window)
+- Not ideal for very complex tasks
+- Cannot replace proper model training in all cases
 
-(Explain briefly)
+---
 
-Example
-Example Input:
-Question: What is polymorphism?
+## What is Prompt Engineering?
 
-Example Output:
-(Short answer)
+Prompt engineering is the process of designing and refining prompts to guide LLMs toward accurate and relevant outputs.
 
-Now answer:
-Question: What is inheritance?
+It focuses on:
+- Clarity
+- Structure
+- Context control
+- Output shaping
 
-Why It Is Powerful
+It is not just asking a question.
+It is asking the question in the most effective way.
 
-(Your understanding)
+---
 
-🔗 5. Introduction to LangChain
-What Problem LangChain Solves
+## Core Components of a Well-Structured Prompt
 
-(Explain simply)
+1. Instructions  
+   Clear command describing what the model should do.
 
-Key Features
+2. Context  
+   Background information that shapes interpretation.
 
-Prompt templates
+3. Input Data  
+   The actual content to be processed.
 
-Chains
+4. Output Indicator  
+   Explicit cue where the model should provide output.
 
-Agents
+---
 
-Memory
+## Example Structure
 
-Tool integration
+Instruction:
+Classify the following customer review as positive, neutral, or negative.
 
-My Understanding
+Context:
+This review is for a newly launched product.
 
-(1 small paragraph)
+Input Data:
+"The product arrived late but the quality exceeded my expectations."
 
-⛓ 6. LangChain LCEL Chaining Method
-What is LCEL?
+Output Indicator:
+Sentiment:
 
-(Short explanation)
+---
 
-Why Chaining Is Useful
+## Conclusion
 
-Breaks complex tasks into steps
-
-Improves response quality
-
-Helps automation
-
-Example Use Case
-
-(Write one practical example)
-
-📑 7. Prompt Templates
-What are Prompt Templates?
-
-(Explain simply)
-
-Why Use Templates?
-
-Reusability
-
-Consistency
-
-Easier maintenance
-
-Simple Example Template
-Explain {topic} for {audience_level}
-
-🧪 Prompt Experiments
-Experiment 1
-
-Prompt Used:
-
-(write prompt)
-
-
-Output Summary:
-(write 2–3 lines)
-
-Observation:
-(What worked / didn’t work)
-
-Experiment 2
-
-Prompt Used:
-
-Output Summary:
-
-Observation:
-
-🌍 Real World Applications of Prompt Engineering
-
-Customer support assistants
-
-AI tutoring systems
-
-Code generation tools
-
-Knowledge retrieval systems
-
-(Add one more if you want)
-
-🪞 Module Reflection
-What I Learned From This Module
-
-(5–6 lines)
-
-What Surprised Me
-
-(1–2 lines)
-
-How I Plan To Use This Knowledge
-
-(Write practical usage)
-
-⭐ Quick Notes (Optional)
-
-(Add short bullet reminders you want to revise later)
+In-context learning allows LLMs to adapt to new tasks by learning from examples included in the prompt itself. Prompt engineering is the deliberate structuring of instructions and context to control model behavior, reduce ambiguity, and improve output quality without modifying model parameters.
