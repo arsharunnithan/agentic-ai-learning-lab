@@ -350,3 +350,112 @@ Sentiment:
 ## Conclusion
 
 In-context learning allows LLMs to adapt to new tasks by learning from examples included in the prompt itself. Prompt engineering is the deliberate structuring of instructions and context to control model behavior, reduce ambiguity, and improve output quality without modifying model parameters.
+
+
+# 5. Introduction to LangChain
+
+## What is LangChain?
+
+LangChain is an open-source Python framework designed to streamline the development of applications powered by Large Language Models (LLMs).
+
+It provides structured components and interfaces that help developers integrate LLMs into AI applications in a modular and scalable way.
+
+The term “Chain” refers to its ability to link multiple steps such as retrieval, extraction, processing, and generation into a structured workflow.
+
+---
+
+## Purpose of LangChain
+
+LangChain helps:
+
+- Retrieve relevant information from large text sources
+- Process and transform data
+- Generate coherent responses
+- Manage multi-step AI workflows
+
+It is especially useful when building systems that require more than a single LLM call.
+
+---
+
+## Key Benefits of LangChain
+
+### 1. Modularity
+
+LangChain allows developers to combine components like building blocks:
+
+- LLMs
+- Prompt templates
+- Retrievers
+- Output parsers
+- Memory modules
+
+This promotes reusability and reduces development effort.
+
+---
+
+### 2. Extensibility
+
+Developers can:
+
+- Add new tools
+- Integrate external systems
+- Swap models
+- Extend workflows
+
+With minimal changes to the existing architecture.
+
+---
+
+### 3. Decomposition Capability
+
+LangChain breaks complex queries into smaller, manageable steps.
+
+Instead of solving everything in one large prompt, it can:
+
+1. Retrieve relevant data  
+2. Extract key information  
+3. Process context  
+4. Generate structured output  
+
+This improves accuracy and reliability.
+
+---
+
+### 4. Vector Database Integration
+
+LangChain integrates easily with vector databases such as:
+
+- FAISS  
+- Pinecone  
+- Chroma  
+
+This enables semantic search and efficient retrieval in RAG systems.
+
+---
+
+## Practical Applications of LangChain
+
+LangChain can be used for:
+
+- Content summarization (legal documents, reports, research papers)
+- Data extraction (statistics, structured insights)
+- Question and Answer systems (customer support, knowledge bases)
+- Automated content generation (emails, documentation, brainstorming)
+
+---
+
+## Working with Other Data Types
+
+Although primarily designed for text, LangChain can work with:
+
+- Audio (via speech-to-text models)
+- Images
+- Video
+
+By leveraging embeddings and external libraries, it enables semantic search across multiple data types.
+
+---
+
+## Conclusion
+
+LangChain is not a model itself but a framework that orchestrates LLM-based systems. It enables modular design, structured workflows, and seamless integration with retrieval systems, making it essential for building scalable AI applications such as RAG pipelines and multi-step reasoning systems.
