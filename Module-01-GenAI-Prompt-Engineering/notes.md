@@ -461,3 +461,158 @@ By leveraging embeddings and external libraries, it enables semantic search acro
 LangChain is not a model itself but a framework that orchestrates LLM-based systems. It enables modular design, structured workflows, and seamless integration with retrieval systems, making it essential for building scalable AI applications such as RAG pipelines and multi-step reasoning systems.
 
 ---
+
+
+# 6. Advanced Methods of Prompt Engineering
+
+Advanced prompt engineering techniques improve reasoning quality, reliability, and task performance without modifying model weights.
+
+---
+
+## 1. Zero-Shot Prompting
+
+The model is given a task without any examples.
+
+It relies entirely on its pre-trained knowledge.
+
+Example:
+Classify the statement as True or False:  
+"The Eiffel Tower is located in Berlin."
+
+The model performs the task without prior examples in the prompt.
+
+Use Case:
+- Simple classification
+- General knowledge tasks
+- When examples are unnecessary
+
+---
+
+## 2. One-Shot Prompting
+
+The model is given a single example before being asked to perform a similar task.
+
+The example acts as a template.
+
+Example:
+
+English → French  
+"How is the weather today?" → "Quel temps fait-il aujourd’hui?"
+
+Now translate:  
+"Where is the nearest supermarket?"
+
+The model follows the demonstrated format.
+
+Use Case:
+- When task format matters
+- When output structure needs guidance
+
+---
+
+## 3. Few-Shot Prompting
+
+The model is given multiple examples before solving a new task.
+
+This helps it generalize patterns more accurately.
+
+Example:
+Several statements labeled with emotions →  
+Then classify a new statement.
+
+Use Case:
+- Pattern-based tasks
+- Classification
+- Format-sensitive responses
+
+---
+
+## 4. Chain-of-Thought (CoT) Prompting
+
+Encourages the model to reason step-by-step.
+
+Instead of giving only the final answer, it explains intermediate steps.
+
+Example:
+Arithmetic problem broken into sequential reasoning steps.
+
+Benefits:
+- Improves performance on reasoning tasks
+- Increases transparency
+- Reduces logical errors
+
+---
+
+## 5. Self-Consistency
+
+Improves reliability by generating multiple independent reasoning paths and selecting the most consistent answer.
+
+Process:
+1. Generate multiple responses
+2. Compare reasoning paths
+3. Select the most consistent result
+
+Use Case:
+- Complex reasoning
+- Math problems
+- Logical inference
+
+---
+
+## Tools for Prompt Engineering
+
+- OpenAI Playground
+- Hugging Face Model Hub
+- LangChain
+- IBM AI tools
+
+These tools allow:
+- Prompt experimentation
+- Model comparison
+- Performance tracking
+- Real-time output testing
+
+---
+
+## LangChain and Prompt Templates
+
+LangChain provides reusable prompt templates.
+
+Templates include:
+- Instructions
+- Context
+- Examples
+- Question
+
+Example:
+
+Template:
+"Tell me a {adjective} joke about {topic}"
+
+Formatted Input:
+"Tell me a funny joke about chickens"
+
+This improves consistency and scalability.
+
+---
+
+## Agents in Prompt Engineering
+
+An agent is a system powered by an LLM that can:
+
+- Use tools
+- Execute multi-step tasks
+- Adapt prompts dynamically
+- Solve complex workflows
+
+Examples:
+- Q&A agents with source citations
+- Content generation agents
+- Data analysis agents
+- Multilingual communication agents
+
+---
+
+## Conclusion
+
+Advanced prompt engineering techniques improve reasoning accuracy, reliability, and adaptability without retraining the model. Methods like few-shot prompting, chain-of-thought reasoning, and self-consistency enhance task performance, while tools like LangChain enable structured and scalable prompt design.
