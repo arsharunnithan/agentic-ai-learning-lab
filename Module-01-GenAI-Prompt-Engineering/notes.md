@@ -615,7 +615,7 @@ Examples:
 ## Conclusion
 
 Advanced prompt engineering techniques improve reasoning accuracy, reliability, and adaptability without retraining the model. Methods like few-shot prompting, chain-of-thought reasoning, and self-consistency enhance task performance, while tools like LangChain enable structured and scalable prompt design.
----
+
 
 # 7. LangChain LCEL (LangChain Expression Language)
 
