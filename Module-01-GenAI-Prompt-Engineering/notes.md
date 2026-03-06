@@ -613,6 +613,136 @@ Examples:
 
 ---
 
+
+# 7. LangChain LCEL (LangChain Expression Language)
+
+## What is LCEL?
+
+LangChain Expression Language (LCEL) is a modern pattern for building LangChain applications using the pipe (`|`) operator to connect components.
+
+It provides a clean, readable, and composable way to build LLM workflows.
+
+LCEL replaces older LLMChain-style patterns with a more flexible and expressive approach.
+
+---
+
+## Why LCEL?
+
+LCEL provides:
+
+- Better composability
+- Clear visualization of data flow
+- Cleaner syntax
+- Easier orchestration
+- Support for parallel execution
+- Async and streaming support
+
+It makes AI pipelines look like structured data flows instead of nested function calls.
+
+---
+
+## Core Idea: The Pipe Operator (`|`)
+
+The pipe operator connects components in sequence.
+
+Example conceptually:
+
+Input  
+→ Prompt Template  
+→ LLM  
+→ Output Parser  
+
+In LCEL:
+
+component1 | component2 | component3
+
+Each component passes its output to the next.
+
+---
+
+## Runnables in LCEL
+
+In LCEL, components are called **Runnables**.
+
+They act as building blocks in the workflow.
+
+Examples:
+- LLM
+- Prompt template
+- Retriever
+- Function
+- Output parser
+
+---
+
+## Runnable Composition Types
+
+### 1. RunnableSequence
+
+Executes components sequentially.
+
+Output of one component becomes input to the next.
+
+LCEL shortcut:
+Instead of RunnableSequence, use the pipe operator (`|`).
+
+---
+
+### 2. RunnableParallel
+
+Runs multiple components simultaneously using the same input.
+
+Example use case:
+- Generate summary
+- Translate text
+- Perform sentiment analysis
+
+All from the same input.
+
+Result:
+A dictionary with multiple outputs.
+
+---
+
+## Type Coercion in LCEL
+
+LCEL automatically converts:
+
+- Dictionaries → RunnableParallel
+- Functions → RunnableLambda
+
+This allows developers to write simpler code without manually wrapping everything.
+
+---
+
+## Example Flow (Conceptual)
+
+Prompt Template (with variables)
+→ RunnableLambda (format prompt)
+→ LLM
+→ StrOutputParser
+
+Each step is connected using the pipe operator.
+
+---
+
+## When to Use LCEL
+
+LCEL is best for:
+
+- Simple to moderate orchestration tasks
+- Clean chaining of LLM workflows
+- Parallel execution of multiple tasks
+- Structured prompt pipelines
+
+For more complex, stateful workflows:
+LangGraph is recommended.
+
+---
+
+## Conclusion
+
+LCEL provides a modern, composable way to build LLM pipelines in LangChain using the pipe operator. It simplifies chaining, supports parallel execution, and improves readability compared to older approaches. It enables clean, maintainable AI workflow construction.
 ## Conclusion
 
 Advanced prompt engineering techniques improve reasoning accuracy, reliability, and adaptability without retraining the model. Methods like few-shot prompting, chain-of-thought reasoning, and self-consistency enhance task performance, while tools like LangChain enable structured and scalable prompt design.
