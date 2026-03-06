@@ -612,7 +612,10 @@ Examples:
 - Multilingual communication agents
 
 ---
+## Conclusion
 
+Advanced prompt engineering techniques improve reasoning accuracy, reliability, and adaptability without retraining the model. Methods like few-shot prompting, chain-of-thought reasoning, and self-consistency enhance task performance, while tools like LangChain enable structured and scalable prompt design.
+---
 
 # 7. LangChain LCEL (LangChain Expression Language)
 
@@ -743,6 +746,3 @@ LangGraph is recommended.
 ## Conclusion
 
 LCEL provides a modern, composable way to build LLM pipelines in LangChain using the pipe operator. It simplifies chaining, supports parallel execution, and improves readability compared to older approaches. It enables clean, maintainable AI workflow construction.
-## Conclusion
-
-Advanced prompt engineering techniques improve reasoning accuracy, reliability, and adaptability without retraining the model. Methods like few-shot prompting, chain-of-thought reasoning, and self-consistency enhance task performance, while tools like LangChain enable structured and scalable prompt design.
