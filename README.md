@@ -31,9 +31,8 @@ This repository will evolve from theory documentation to real AI project impleme
 ## 📈 Learning Progress
 
 - [x] Module 1 – Foundations of Generative AI and Prompt Engineering
-- [ ] Module 2 – (To be completed)
+- [x] Module 2 – Introduction to Langchain in GenAI Applications
 - [ ] Module 3 – (To be completed)
-- [ ] Module 4 – (To be completed)
 
 ---
 
