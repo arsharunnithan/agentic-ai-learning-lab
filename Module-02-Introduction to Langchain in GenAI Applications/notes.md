@@ -38,7 +38,6 @@ LangChain provides a framework to handle all of this efficiently.
 ---
 
 #### Conclusion
-
 LangChain is not just about calling an LLM. It is used to build complete AI systems by connecting multiple components such as prompts, models, and external data sources into a structured pipeline.
 ---
 # LangChain Core Concepts — Summary
