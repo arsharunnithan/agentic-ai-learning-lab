@@ -399,3 +399,296 @@ response = agent.invoke("How many rows are in the dataframe?")
 ---
 
 *Notes based on the LangChain Chains & Agents introductory module.*
+
+---
+
+
+# LangChain LCEL – The Modern Chaining Method
+
+> A comprehensive reference note on LangChain Expression Language (LCEL) for building flexible, composable AI pipelines.
+
+---
+
+## Table of Contents
+
+1. [What is LCEL?](#what-is-lcel)
+2. [Why LCEL over Traditional LLMChain?](#why-lcel-over-traditional-llmchain)
+3. [Core Steps to Build an LCEL Chain](#core-steps-to-build-an-lcel-chain)
+4. [Runnable Primitives](#runnable-primitives)
+   - [RunnableSequence](#runnablesequence)
+   - [RunnableParallel](#runnableparallel)
+   - [RunnableLambda](#runnablelambda)
+5. [Type Coercion in LCEL](#type-coercion-in-lcel)
+6. [LCEL in Action – Simple Chain Example](#lcel-in-action--simple-chain-example)
+7. [LCEL in Action – Parallel Chain Example](#lcel-in-action--parallel-chain-example)
+8. [When to Use LCEL vs LangGraph](#when-to-use-lcel-vs-langgraph)
+9. [Key Strengths of LCEL](#key-strengths-of-lcel)
+10. [Summary](#summary)
+
+---
+
+## What is LCEL?
+
+**LangChain Expression Language (LCEL)** is the modern, recommended pattern for building LangChain applications. It uses the **pipe operator (`|`)** to connect components, creating a clean and readable flow of data from input to output.
+
+```
+Input → Component 1 | Component 2 | Component 3 → Output
+```
+
+LCEL acts as the "glue" between LangChain building blocks — prompts, LLMs, retrievers, parsers, and tools — turning them into composable, maintainable pipelines.
+
+---
+
+## Why LCEL over Traditional LLMChain?
+
+LangChain has evolved significantly. LCEL is the **newer, recommended approach** over the traditional `LLMChain` pattern.
+
+| Feature | Traditional LLMChain | LCEL |
+|---|---|---|
+| Readability | Moderate | High — pipe operator is intuitive |
+| Composability | Limited | Excellent |
+| Data flow visualization | Implicit | Explicit and clear |
+| Parallel execution | Manual setup | Built-in via `RunnableParallel` |
+| Async support | Limited | Native |
+| Streaming | Complex | Simplified |
+| Automatic tracing | No | Yes |
+
+---
+
+## Core Steps to Build an LCEL Chain
+
+Every LCEL chain follows these four steps:
+
+1. **Define a template** with variables in curly braces `{variable}`
+2. **Create a `PromptTemplate` instance** from the template
+3. **Build the chain** using the pipe operator `|` to connect components
+4. **Invoke the chain** with input values
+
+```python
+# Step 1: Define the template
+template = "Tell me a {adjective} joke about {content}."
+
+# Step 2: Create PromptTemplate
+prompt = PromptTemplate(input_variables=["adjective", "content"], template=template)
+
+# Step 3: Build chain with pipe operator
+chain = prompt | llm | StrOutputParser()
+
+# Step 4: Invoke with inputs
+response = chain.invoke({"adjective": "funny", "content": "cats"})
+```
+
+---
+
+## Runnable Primitives
+
+In LangChain, **Runnables** are the interfaces and building blocks that connect different components — LLMs, retrievers, tools — into a pipeline. There are two main composition primitives:
+
+---
+
+### RunnableSequence
+
+Chains components **sequentially**, passing the output of one as the input to the next.
+
+```python
+from langchain_core.runnables import RunnableSequence
+
+# Explicit way
+chain = RunnableSequence(first=component_1, last=component_2)
+
+# LCEL shorthand (pipe operator — preferred)
+chain = component_1 | component_2
+```
+
+> ✅ Both are equivalent. The pipe operator is the cleaner, preferred syntax.
+
+---
+
+### RunnableParallel
+
+Runs **multiple components concurrently**, each receiving the **same input** and producing independent outputs.
+
+```python
+from langchain_core.runnables import RunnableParallel
+
+# Explicit way
+parallel_chain = RunnableParallel(
+    summary=summary_chain,
+    translation=translation_chain,
+    sentiment=sentiment_chain
+)
+
+# LCEL shorthand — using a dictionary (auto-coerced)
+parallel_chain = {
+    "summary": summary_chain,
+    "translation": translation_chain,
+    "sentiment": sentiment_chain
+}
+```
+
+**Output structure:**
+```python
+{
+    "summary": "...",
+    "translation": "...",
+    "sentiment": "..."
+}
+```
+
+Each key holds the result of its respective chain, all processed simultaneously.
+
+---
+
+### RunnableLambda
+
+Wraps a **regular Python function** and converts it into a runnable component that LangChain can work with in a pipeline.
+
+```python
+from langchain_core.runnables import RunnableLambda
+
+def format_prompt(inputs):
+    return f"Tell me a {inputs['adjective']} joke about {inputs['content']}."
+
+# Wrap the function as a Runnable
+formatted = RunnableLambda(format_prompt)
+
+# Use in a chain
+chain = formatted | llm | StrOutputParser()
+```
+
+---
+
+## Type Coercion in LCEL
+
+LCEL **automatically converts** regular Python objects into compatible Runnable components behind the scenes — no manual wrapping required.
+
+| Python Type | Auto-converted To | Behavior |
+|---|---|---|
+| `dict` | `RunnableParallel` | Runs all values concurrently with the same input |
+| `function` | `RunnableLambda` | Transforms inputs using the function |
+
+```python
+# This dictionary is automatically treated as RunnableParallel
+chain = {
+    "summary": prompt_1 | llm,
+    "translation": prompt_2 | llm,
+    "sentiment": prompt_3 | llm
+} | output_parser
+```
+
+> LCEL handles all type conversion in the background, keeping your code concise and clean.
+
+---
+
+## LCEL in Action – Simple Chain Example
+
+A basic sequential chain using `RunnableLambda`, the pipe operator, and `StrOutputParser`:
+
+```python
+from langchain_core.runnables import RunnableLambda
+from langchain_core.output_parsers import StrOutputParser
+
+# Define a formatting function
+def format_prompt(inputs):
+    adjective = inputs["adjective"]
+    content = inputs["content"]
+    return f"Tell me a {adjective} joke about {content}."
+
+# Build the chain
+joke_chain = (
+    RunnableLambda(format_prompt)   # Step 1: Format the prompt
+    | llm                           # Step 2: Pass to LLM
+    | StrOutputParser()             # Step 3: Parse output to string
+)
+
+# Invoke
+result = joke_chain.invoke({"adjective": "funny", "content": "programmers"})
+print(result)
+```
+
+**Data flow:**
+```
+{"adjective": "funny", "content": "programmers"}
+    ↓ RunnableLambda (formats prompt string)
+"Tell me a funny joke about programmers."
+    ↓ LLM (generates response)
+"Why do programmers prefer dark mode? Because light attracts bugs!"
+    ↓ StrOutputParser (extracts plain string)
+Final output string
+```
+
+---
+
+## LCEL in Action – Parallel Chain Example
+
+Processing the same input through **three tasks simultaneously**:
+
+```python
+# Three prompt templates for different tasks
+summary_prompt = PromptTemplate.from_template("Summarize this: {text}")
+translate_prompt = PromptTemplate.from_template("Translate to French: {text}")
+sentiment_prompt = PromptTemplate.from_template("What is the sentiment of: {text}")
+
+# Parallel chain — all three run at the same time
+parallel_chain = {
+    "summary":     summary_prompt   | llm | StrOutputParser(),
+    "translation": translate_prompt | llm | StrOutputParser(),
+    "sentiment":   sentiment_prompt | llm | StrOutputParser()
+}
+
+# Invoke with shared input
+result = parallel_chain.invoke({"text": "LangChain makes AI development easy and fun!"})
+
+# Result structure:
+# {
+#   "summary": "LangChain simplifies AI development.",
+#   "translation": "LangChain rend le développement IA facile et amusant !",
+#   "sentiment": "Positive"
+# }
+```
+
+---
+
+## When to Use LCEL vs LangGraph
+
+| Use Case | Recommended Tool |
+|---|---|
+| Simple sequential pipelines | ✅ LCEL |
+| Parallel task execution | ✅ LCEL |
+| Prompt + LLM + parser workflows | ✅ LCEL |
+| Complex multi-step workflows with branching logic | ✅ LangGraph (use LCEL within individual nodes) |
+| Stateful, cyclical agent workflows | ✅ LangGraph |
+
+> **Best practice:** Use LCEL for orchestration within nodes, and LangGraph to manage complex workflows between nodes.
+
+---
+
+## Key Strengths of LCEL
+
+| Strength | Description |
+|---|---|
+| **Parallel execution** | Run multiple chains concurrently with `RunnableParallel` |
+| **Async support** | Native `async`/`await` support for non-blocking pipelines |
+| **Simplified streaming** | Stream tokens from LLMs with minimal setup |
+| **Automatic tracing** | Built-in tracing for debugging and monitoring |
+| **Composability** | Mix and match components freely using `|` |
+| **Type coercion** | Auto-converts dicts and functions — less boilerplate |
+
+---
+
+## Summary
+
+| Concept | Key Takeaway |
+|---|---|
+| **LCEL** | Modern LangChain pattern using the pipe operator `\|` for clean data flow |
+| **Pipe operator `\|`** | Connects runnable components sequentially |
+| **PromptTemplate** | Defines prompts with `{variable}` placeholders |
+| **RunnableSequence** | Chains components one after another |
+| **RunnableParallel** | Runs multiple components simultaneously on the same input |
+| **RunnableLambda** | Wraps Python functions into runnable pipeline components |
+| **Type coercion** | Dicts → `RunnableParallel`; Functions → `RunnableLambda` (auto) |
+| **LCEL vs LangGraph** | LCEL for simple flows; LangGraph for complex/stateful workflows |
+
+---
+
+*Notes based on the LangChain LCEL Chaining Method module.*
