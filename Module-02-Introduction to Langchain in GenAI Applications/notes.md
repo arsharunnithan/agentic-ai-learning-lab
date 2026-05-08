@@ -125,3 +125,277 @@ Final Structured Output
 ## Conclusion
 
 LangChain is a framework that organizes how we interact with LLMs. Instead of sending raw prompts, it allows us to structure inputs, manage conversations, and convert outputs into usable formats, making it easier to build real-world AI applications.
+---
+# LangChain: Chains & Agents for Building Applications
+
+> A comprehensive reference note covering chains, memory, and agents in LangChain.
+
+---
+
+## Table of Contents
+
+1. [What is LangChain?](#what-is-langchain)
+2. [Chains in LangChain](#chains-in-langchain)
+   - [Sequential Chains](#sequential-chains)
+   - [Building a 3-Chain Example](#building-a-3-chain-example)
+     - [Chain 1 – Location to Dish](#chain-1--location-to-dish)
+     - [Chain 2 – Dish to Recipe](#chain-2--dish-to-recipe)
+     - [Chain 3 – Recipe to Cooking Time](#chain-3--recipe-to-cooking-time)
+   - [Combining Chains into a Sequential Chain](#combining-chains-into-a-sequential-chain)
+3. [Memory in LangChain](#memory-in-langchain)
+   - [How Memory Works](#how-memory-works)
+   - [ChatMessageHistory Example](#chatmessagehistory-example)
+4. [Agents in LangChain](#agents-in-langchain)
+   - [How Agents Work](#how-agents-work)
+   - [Pandas DataFrame Agent Example](#pandas-dataframe-agent-example)
+5. [Summary](#summary)
+
+---
+
+## What is LangChain?
+
+LangChain is a **platform embedded with APIs** designed to help developers build intelligent applications by infusing language processing capabilities. It provides a structured framework using three core building blocks:
+
+| Tool | Purpose |
+|---|---|
+| **Documents** | Source material for context and retrieval |
+| **Chains** | Sequenced calls to process and transform information |
+| **Agents** | Dynamic systems that reason and interact with external tools |
+
+---
+
+## Chains in LangChain
+
+A **chain** is a sequence of calls where the output of one step becomes the input for the next, forming a seamless pipeline of information.
+
+### Sequential Chains
+
+A **sequential chain** consists of basic steps where:
+
+- Each step takes **one input** and produces **one output**
+- Output from **Step N** → Input for **Step N+1**
+- All individual chains are wrapped into a **unified process**
+
+```
+[User Prompt] → Chain 1 → Chain 2 → Chain 3 → [Final Output]
+```
+
+---
+
+### Building a 3-Chain Example
+
+**Goal:** Given a location, identify the famous dish, its recipe, and estimated cooking time.
+
+```
+Location (China) → Famous Dish (Peking Duck) → Recipe → Cooking Time
+```
+
+---
+
+#### Chain 1 – Location to Dish
+
+**Input:** User-specified location (e.g., `China`)  
+**Output:** Famous dish from that location (e.g., `Peking Duck`), stored under key `meal`
+
+```python
+# Step 1: Define the prompt template
+template = "What is a famous dish from {location}?"
+
+# Step 2: Create a PromptTemplate object
+prompt = PromptTemplate(input_variables=["location"], template=template)
+
+# Step 3: Create the LLM chain
+location_chain = LLMChain(
+    llm=mixtral_llm,       # pre-instantiated chat model
+    prompt=prompt,
+    output_key="meal"
+)
+```
+
+---
+
+#### Chain 2 – Dish to Recipe
+
+**Input:** `meal` (output from Chain 1)  
+**Output:** Recipe for the dish, stored under key `recipe`
+
+```python
+# Step 1: Define the prompt template
+template = "Give me a simple recipe for {meal}."
+
+# Step 2: Create a PromptTemplate object
+prompt = PromptTemplate(input_variables=["meal"], template=template)
+
+# Step 3: Create the LLM chain
+dish_chain = LLMChain(
+    llm=mixtral_llm,
+    prompt=prompt,
+    output_key="recipe"
+)
+```
+
+---
+
+#### Chain 3 – Recipe to Cooking Time
+
+**Input:** `recipe` (output from Chain 2)  
+**Output:** Estimated cooking time, stored under key `time`
+
+```python
+# Step 1: Define the prompt template
+template = "Estimate the cooking time for this recipe: {recipe}"
+
+# Step 2: Create a PromptTemplate object
+prompt = PromptTemplate(input_variables=["recipe"], template=template)
+
+# Step 3: Create the LLM chain
+recipe_chain = LLMChain(
+    llm=mixtral_llm,
+    prompt=prompt,
+    output_key="time"
+)
+```
+
+---
+
+### Combining Chains into a Sequential Chain
+
+All three chains are wrapped together into a `SequentialChain`, creating a single unified pipeline.
+
+```python
+from langchain.chains import SequentialChain
+
+overall_chain = SequentialChain(
+    chains=[location_chain, dish_chain, recipe_chain],
+    input_variables=["location"],
+    output_variables=["meal", "recipe", "time"],
+    verbose=True   # Set to True to trace the full information flow
+)
+
+# Run the chain
+result = overall_chain.invoke({"location": "China"})
+```
+
+> **Tip:** Setting `verbose=True` gives a detailed view of how each input is transformed at every step through to the final output.
+
+---
+
+## Memory in LangChain
+
+Memory in LangChain enables chains and agents to **read and write historical data**, preserving context across multiple interactions.
+
+### How Memory Works
+
+Every chain relies on two core inputs:
+
+- **User input** – the current prompt from the user
+- **Memory** – historical context from past interactions
+
+The memory lifecycle within a chain:
+
+```
+Before execution:  Memory is READ → enhances the user's input
+After execution:   Current inputs & outputs are WRITTEN back to memory
+```
+
+This ensures **continuity and context preservation** across interactions.
+
+---
+
+### ChatMessageHistory Example
+
+The `ChatMessageHistory` class manages and stores conversation histories, supporting both **human messages** and **AI messages**.
+
+```python
+from langchain.memory import ChatMessageHistory
+
+# Instantiate the history object
+history = ChatMessageHistory()
+
+# Add an AI message to memory
+history.add_ai_message("Hi!")
+
+# Add a human (user) message to memory
+history.add_user_message("What is the capital of France?")
+
+# The memory now holds:
+# [AIMessage: "Hi!", HumanMessage: "What is the capital of France?"]
+```
+
+All stored messages become available context for subsequent responses, enabling coherent multi-turn conversations.
+
+---
+
+## Agents in LangChain
+
+**Agents** are dynamic systems where a language model determines and sequences actions, going beyond static chains to interact with external tools and data sources.
+
+### How Agents Work
+
+| Aspect | Detail |
+|---|---|
+| **Decision-making** | The LLM reasons about what action to take next |
+| **Output** | Generates text outputs to guide actions |
+| **Execution** | Does **not** execute actions directly — delegates to tools |
+| **Tools** | Search engines, databases, websites, APIs, etc. |
+
+**Example flow** – User asks: *"What is the population of Italy?"*
+
+```
+User Query
+    ↓
+Agent (LLM reasons about options)
+    ↓
+Queries External Database / Tool
+    ↓
+Returns curated, accurate answer
+```
+
+This demonstrates the agent's ability to **autonomously combine LLM reasoning with external tool use**.
+
+---
+
+### Pandas DataFrame Agent Example
+
+LangChain includes specialized agents such as the **Pandas DataFrame Agent**, which allows users to query and visualize tabular data using natural language.
+
+```python
+from langchain.agents import create_pandas_dataframe_agent
+
+# Create the agent
+agent = create_pandas_dataframe_agent(
+    llm=chat_model,      # pre-instantiated LLM
+    df=dataframe,        # your Pandas DataFrame
+    verbose=True         # shows LLM's reasoning process
+)
+
+# Invoke a natural language query
+response = agent.invoke("How many rows are in the dataframe?")
+
+# Example output:
+# → "There are 139 rows in the DataFrame."
+```
+
+**Under the hood:**
+1. The LLM translates the natural language query into Python code
+2. The code is executed in the background against the DataFrame
+3. The result is returned as a precise, human-readable answer
+
+---
+
+## Summary
+
+| Concept | Key Takeaway |
+|---|---|
+| **LangChain** | API-embedded platform for building language-powered applications |
+| **Chains** | Sequences of calls; output of one step feeds into the next |
+| **Sequential Chain** | Wraps multiple chains into a single unified pipeline |
+| **Chain Setup** | Define template → Create PromptTemplate → Create LLMChain |
+| **Memory** | Reads context before execution; writes results after execution |
+| **ChatMessageHistory** | Stores AI and human messages for multi-turn conversations |
+| **Agents** | Dynamic systems that use LLM reasoning + external tools |
+| **DataFrame Agent** | Translates natural language into executable Python/pandas code |
+
+---
+
+*Notes based on the LangChain Chains & Agents introductory module.*
