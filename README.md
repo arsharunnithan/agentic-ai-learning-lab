@@ -16,10 +16,10 @@ A structured learning journal documenting my progress through the **IBM RAG and 
 ## 📂 Repository Structure
 
 ```
-agentic-ai-learning-lab/
+Course-01-Develop-GenAI-Applications/
 ├── Module-01-GenAI-Prompt-Engineering/
-├── Module-02-Introduction-to-Langchain-in-GenAI/
-├── Module-03-Building-a-Generative-AI-Application/
+├── Module-02-Introduction-to-LangChain/
+|── Module-03-Building-with-Flask/
 └── README.md
 ```
 
