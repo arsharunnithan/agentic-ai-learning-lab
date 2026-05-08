@@ -1,6 +1,6 @@
 
 
-##Choose the Right AI Model for Your Use Case
+#Choose the Right AI Model for Your Use Case
 
 > A structured guide to selecting, evaluating, and governing the right AI model for your specific business needs.
 
