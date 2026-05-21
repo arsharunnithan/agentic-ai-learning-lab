@@ -1,0 +1,6 @@
+gradio
+transformers
+torch
+groq
+openai
+urllib3
