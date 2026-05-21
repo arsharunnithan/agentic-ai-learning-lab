@@ -4,3 +4,4 @@ torch
 groq
 openai
 urllib3
+pypdf
