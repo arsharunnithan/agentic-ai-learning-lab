@@ -21,6 +21,25 @@ Course-01-Develop-GenAI-Applications/
 ├── Module-02-Introduction-to-LangChain/
 |── Module-03-Building-with-Flask/
 └── README.md
+
+Course-02-Build-RAG-Applications/
+├── Module-01-Intro-to-RAG.md
+├── Module-02-Intro-to-Gradio.md
+├── Module-03-Gradio-Hands-On/
+│   ├── app1_greeter.py
+│   ├── app2_sentiment.py
+│   ├── app3_toolkit.py
+│   ├── app4_chatbot.py
+│   ├── app5_pdf_rag.py
+│   └── README.md
+├── Module-04-LangChain-QA-Bot/
+│   ├── qa_bot.py
+│   ├── requirements.txt
+│   └── README.md
+└── Module-05-LlamaIndex-Icebreaker-Bot/
+    ├── icebreaker_bot.py
+    ├── requirements.txt
+    └── README.md
 ```
 
 ---
