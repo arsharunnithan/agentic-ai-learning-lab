@@ -36,6 +36,21 @@ Result 1: "Python is the most popular language for AI" (57.8%)
 Result 2: "Natural language processing helps computers..." (41.4%)
 Result 3: "Data science combines statistics and programming..." (35.5%)
 
+
+## Exercise 01 — Employee Similarity Search
+**File:** `employee_search.py`
+- Stores 5 employee records in ChromaDB as vector embeddings
+- Converts structured dictionaries to text descriptions
+- Performs semantic similarity search on any query
+- Returns top 3 most relevant employees with match percentage
+
+## Key Concepts Learned
+- Converting structured data to text for embedding
+- ChromaDB collection creation with embedding function
+- List comprehensions in Python
+- Semantic search vs keyword search
+- Distance to similarity conversion: (1 - distance) * 100
+  
 ## Note
 This uses in-memory ChromaDB — data resets on restart.
 For persistent storage use: chromadb.PersistentClient(path="./db")
