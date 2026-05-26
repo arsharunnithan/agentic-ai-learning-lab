@@ -1,4 +1,15 @@
-# Module 03 — ChromaDB Similarity Search
+Course-03-Vector-Databases-for-RAG/
+├── Module-01-Introduction-to-Vector-Databases.md
+├── Module-02-Exploring-ChromaDB.md
+├── Module-04-Vector-Databases-for-Recommendation-and-RAG.md
+└── Module-03-HandsOn-ChromaDB/
+    ├── chroma_similarity.py
+    ├── employee_search.py
+    ├── food_recommender.py
+    ├── requirements.txt
+    └── README.md
+    
+## ChromaDB Similarity Search
 
 Demonstrates how vector databases work by storing text documents 
 as embeddings and performing semantic similarity search.
@@ -54,3 +65,60 @@ Result 3: "Data science combines statistics and programming..." (35.5%)
 ## Note
 This uses in-memory ChromaDB — data resets on restart.
 For persistent storage use: chromadb.PersistentClient(path="./db")
+
+
+## Exercise 02: AI Food Recommendation System
+
+An advanced food recommendation system with three distinct 
+approaches to similarity search and conversational AI.
+
+## What it does
+- Basic semantic similarity search on food descriptions
+- Advanced filtered search by cuisine and calories
+- RAG chatbot for intelligent food recommendations
+
+## How to run
+pip install -r requirements.txt
+python food_recommender.py
+
+## Tech Stack
+- Gradio — web interface with tabs
+- ChromaDB — persistent vector database
+- SentenceTransformers — all-MiniLM-L6-v2 embedding model
+- Groq API — fast LLM inference
+- Llama 3.1 — language model for chatbot
+
+## Three Features
+
+### Tab 1 — Basic Search
+Type any craving and get top 3 similar foods using 
+semantic similarity search.
+
+### Tab 2 — Filtered Search
+Search with hard filters:
+- Filter by cuisine (Indian, Italian, Mexican etc)
+- Filter by maximum calories
+ChromaDB first filters, then searches remaining foods.
+
+### Tab 3 — RAG Food Chatbot
+Conversational AI that:
+- Retrieves relevant foods from ChromaDB
+- Passes them as context to Llama 3.1
+- Generates personalized recommendations in natural language
+
+## Key Concepts Learned
+- Persistent ChromaDB (data survives restart)
+- get_or_create_collection vs create_collection
+- Metadata filtering ($eq, $lte operators)
+- gr.Tab() for multi-tab Gradio interfaces
+- NLP with SentenceTransformers for embeddings
+- Real RAG limitation — false positives in similarity search
+
+## Key Difference from Exercise 01
+Exercise 01 — in-memory ChromaDB (resets on restart)
+Exercise 02 — persistent ChromaDB (saved to food_db/ folder)
+
+## Note
+Add your Groq API key in food_recommender.py before running.
+Never commit real API keys to GitHub.
+
