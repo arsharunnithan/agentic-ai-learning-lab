@@ -1,0 +1,12 @@
+gradio
+langchain
+langchain-classic
+langchain-community
+langchain-core
+langchain-groq
+langchain-huggingface
+langchain-text-splitters
+faiss-cpu
+chromadb
+sentence-transformers
+lark
