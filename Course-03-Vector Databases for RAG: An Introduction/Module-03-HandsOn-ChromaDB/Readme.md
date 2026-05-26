@@ -1,15 +1,3 @@
-# Structure
-
-Course-03-Vector-Databases-for-RAG/
-├── Module-01-Introduction-to-Vector-Databases.md
-├── Module-02-Exploring-ChromaDB.md
-├── Module-04-Vector-Databases-for-Recommendation-and-RAG.md
-└── Module-03-HandsOn-ChromaDB/
-    ├── chroma_similarity.py
-    ├── employee_search.py
-    ├── food_recommender.py
-    ├── requirements.txt
-    └── README.md
     
 ## ChromaDB Similarity Search
 
