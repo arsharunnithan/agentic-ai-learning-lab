@@ -1,3 +1,5 @@
+# Structure
+
 Course-03-Vector-Databases-for-RAG/
 ├── Module-01-Introduction-to-Vector-Databases.md
 ├── Module-02-Exploring-ChromaDB.md
@@ -117,6 +119,7 @@ Conversational AI that:
 ## Key Difference from Exercise 01
 Exercise 01 — in-memory ChromaDB (resets on restart)
 Exercise 02 — persistent ChromaDB (saved to food_db/ folder)
+
 
 ## Note
 Add your Groq API key in food_recommender.py before running.
