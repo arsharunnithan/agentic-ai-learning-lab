@@ -11,6 +11,7 @@ topic and converts them to audio using Text-to-Speech.
 
 ## How to run
 pip install -r requirements.txt
+
 python ai_storyteller.py
 
 ## Tech Stack
