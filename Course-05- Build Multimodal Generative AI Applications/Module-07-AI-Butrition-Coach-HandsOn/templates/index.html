@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Nutrition Coach</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #a0a0b0;
+            font-size: 1.1rem;
+        }
+
+        .upload-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px dashed rgba(0,212,170,0.4);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .upload-card:hover {
+            border-color: #00d4aa;
+            background: rgba(0,212,170,0.05);
+        }
+
+        .upload-icon { font-size: 3rem; margin-bottom: 15px; }
+
+        .upload-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: #00d4aa;
+        }
+
+        .upload-card p { color: #a0a0b0; }
+
+        #fileInput { display: none; }
+
+        #preview-container {
+            display: none;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #preview {
+            max-width: 400px;
+            max-height: 300px;
+            border-radius: 15px;
+            border: 2px solid #00d4aa;
+        }
+
+        .analyze-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, #00d4aa, #7b2ff7);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .analyze-btn:hover { opacity: 0.9; }
+        .analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .results-card {
+            display: none;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,212,170,0.3);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .results-card h2 {
+            color: #00d4aa;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .analysis-text {
+            line-height: 1.8;
+            color: #e0e0e0;
+            white-space: pre-wrap;
+        }
+
+        .analysis-text strong { color: #00d4aa; }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0,212,170,0.2);
+            border-top: 4px solid #00d4aa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🥗 AI Nutrition Coach</h1>
+            <p>Upload a food photo for instant calorie analysis and personalized dietary advice</p>
+        </header>
+
+        <div class="upload-card" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">📸</div>
+            <h3>Upload Food Image</h3>
+            <p>Click to browse or drag and drop your food photo</p>
+            <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
+        </div>
+
+        <div id="preview-container">
+            <img id="preview" src="" alt="Food preview">
+        </div>
+
+        <button class="analyze-btn" onclick="analyzeFood()" id="analyzeBtn">
+            🔍 Analyze Nutrition
+        </button>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="color: #00d4aa">Analyzing your food...</p>
+        </div>
+
+        <div class="results-card" id="results">
+            <h2>📊 Nutrition Analysis</h2>
+            <div class="analysis-text" id="analysisText"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFile = null;
+
+        function previewImage(event) {
+            selectedFile = event.target.files[0];
+            if (selectedFile) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('preview-container').style.display = 'block';
+                };
+                reader.readAsDataURL(selectedFile);
+            }
+        }
+
+        async function analyzeFood() {
+            if (!selectedFile) {
+                alert('Please upload a food image first!');
+                return;
+            }
+
+            const btn = document.getElementById('analyzeBtn');
+            btn.disabled = true;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results').style.display = 'block';
+                document.getElementById('analysisText').innerHTML = 
+    data.analysis
+    .replace(/### (.*)/g, '<h3>$1</h3>')
+    .replace(/## (.*)/g, '<h2>$1</h2>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
+
+            } catch (error) {
+                alert('Error analyzing image. Please try again!');
+                document.getElementById('loading').style.display = 'none';
+            }
+
+            btn.disabled = false;
+        }
+    </script>
+</body>
+</html>
