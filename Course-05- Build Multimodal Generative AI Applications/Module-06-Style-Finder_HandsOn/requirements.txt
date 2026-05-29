@@ -1,0 +1,8 @@
+gradio
+groq
+torch
+torchvision
+pillow
+datasets
+scikit-learn
+numpy
